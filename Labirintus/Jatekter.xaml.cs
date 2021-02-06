@@ -237,6 +237,7 @@ namespace Labirintus
                 await Task.Delay(100);
             }
             Labirint[8, 7] = '.';
+            Megjelenit();
         }
 
         //int poz = 0;
