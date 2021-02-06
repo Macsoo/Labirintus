@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Title="FŐMENÜ" Height="400" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="FŐMENÜ" Height="300" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>            
             <RowDefinition Height="*"/>            
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -19,10 +19,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <CheckBox x:Name="cbBeolvas" Content="Labirintus beolvasása" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Courier New" FontSize="28" Grid.Column="0" Checked="CbBeolvas_Checked"/>
-            <CheckBox x:Name="cbGeneral" Content="Labirintus generálása" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Courier New" FontSize="28" Grid.Column="1" Checked="CbGeneral_Checked"/>
-        </Grid>
-        <TextBox Name="tbFajlnev" Margin="10" MaxLength="30" FontFamily="Courier New" FontSize="28" Grid.Row="1"/>        
+            <RadioButton x:Name="cbBeolvas" Content="Labirintus beolvasása" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Courier New" FontSize="28" Grid.Column="0" Checked="CbBeolvas_Checked"/>
+            <RadioButton x:Name="cbGeneral" Content="Labirintus generálása" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Courier New" FontSize="28" Grid.Column="1" Checked="CbGeneral_Checked"/>
+        </Grid>        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labirintus"
-        mc:Ignorable="d"
+        mc:Ignorable="d"    
+        WindowStyle="None"
         ResizeMode="NoResize"
-        Title="Jatekter" Height="700" Width="600">
+        WindowStartupLocation="CenterScreen"
+        Title="Jatekter" Height="753" Width="603">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" x:Name="labirintus">
 

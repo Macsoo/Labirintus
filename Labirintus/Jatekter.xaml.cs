@@ -28,12 +28,19 @@ namespace Labirintus
         public Jatekter(string fajlnev)
         {
             InitializeComponent();
-            
+            Labyrinth lab = new Labyrinth(labirintus, fajlnev);
+            lab.Megjelenit();
         }
 
         private void BtnVissza_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBoxResult result = MessageBox.Show("Biztosan ki akar lépni a főmenübe?", "Visszalépés", MessageBoxButton.YesNo);
+            if (result==MessageBoxResult.Yes)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
         }
 
         private void BtnBalra_Click(object sender, RoutedEventArgs e)
@@ -63,18 +70,18 @@ namespace Labirintus
         private Border[,] cellak;
         private Pos jatekos = new Pos(1, 1);
         public Labyrinth(Grid labirintus, string fajlnev)
-        {
+        { 
             this.labirintus = labirintus;
             Labirint = new char[9, 9];
-            string[] forras;
-            if (fajlnev.Contains(".txt"))
+            string[] forras = new string[9];
+            int index = 0;
+            StreamReader sr = new StreamReader(fajlnev);
+            while (!sr.EndOfStream)
             {
-                forras = File.ReadAllLines(fajlnev);
+                forras[index] = sr.ReadLine();
+                index++;
             }
-            else
-            {
-                forras = File.ReadAllLines(fajlnev + ".txt");
-            }             
+            sr.Close();
             for (int sor = 0; sor < 9; sor++)
             {
                 for (int oszlop = 0; oszlop < 9; oszlop++)
@@ -104,16 +111,20 @@ namespace Labirintus
                     cella.KeyDown += Lenyom;
                     if (oszlop == 1 && sor == 1)
                     {
-                        // 1. sor, 1. sor, a játékos alphelyzete
-                        cella.Child = new Label() { Content = "V" };
+                        // 1. sor, 1. oszlop, a játékos alphelyzete
+                        System.Windows.Point Point1 = new System.Windows.Point(26.8, 40.2);
+                        System.Windows.Point Point2 = new System.Windows.Point(13.4, 13.4);
+                        System.Windows.Point Point3 = new System.Windows.Point(40.2, 13.4);
+                        PointCollection myPointCollection = new PointCollection();
+                        myPointCollection.Add(Point1);
+                        myPointCollection.Add(Point2);
+                        myPointCollection.Add(Point3);                        
+                        cella.Child = new Polygon() { Stroke=Brushes.Black, StrokeThickness=4, Fill=Brushes.Green, Points=myPointCollection, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
+                        
                     }
                     else if (Labirint[sor, oszlop] == '*')
                     {
-                        cella.Child = new Label() { Content = "*" };
-                    }
-                    else
-                    {
-                        cella.Child = new Label() { Content = "." };
+                        cella.Background = Brushes.Black;
                     }
                     cellak[sor, oszlop] = cella;
                     labirintus.Children.Add(cella);
@@ -242,13 +253,13 @@ namespace Labirintus
                             break;
                         default:
                             throw new Exception("Nem lett tökéletes a labirintus leenerálása!");
-                            break;
+                            //break;
                     }
                 }
             }
         }
-        int poz = 0;
-        public void Fordulas(char f, int s, int o)
+        //int poz = 0;
+        /*public void Fordulas(char f, int s, int o)
         {
             char fordul = f; int sor = s; int oszlop = o;
 
@@ -259,7 +270,7 @@ namespace Labirintus
             else { jatekos = poziciok[(--poz) % 4] }
 
             Labirint[sor, oszlop] = jatekos;
-        }
+        }*/
         public void Elore(char f, int s, int o)
         {
             char fordul = f; int sor = s; int oszlop = o;

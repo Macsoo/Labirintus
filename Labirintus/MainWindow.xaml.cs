@@ -20,18 +20,15 @@ namespace Labirintus
     /// </summary>
     public partial class MainWindow : Window
     {
+        string fajlnev;
         public MainWindow()
         {
-            InitializeComponent();
-            cbBeolvas.IsChecked = true;
+            InitializeComponent();            
         }
-        
-
         private void BtnIndit_Click(object sender, RoutedEventArgs e)
         {
             if (cbBeolvas.IsChecked==true)
             {
-                string fajlnev = tbFajlnev.Text;
                 Jatekter jatekter = new Jatekter(fajlnev);
                 jatekter.Show();
                 this.Close();
@@ -43,26 +40,29 @@ namespace Labirintus
                 this.Close();
             }
         }
-
         private void BtnKilepes_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult eredmeny = MessageBox.Show("Biztosan ki akar lépni", "Kilépés a programból", MessageBoxButton.YesNo);
+            MessageBoxResult eredmeny = MessageBox.Show("Biztosan ki akar lépni?", "Kilépés a programból", MessageBoxButton.YesNo);
             if (eredmeny==MessageBoxResult.Yes)
             {
                 this.Close();
             }
         }
-
         private void CbBeolvas_Checked(object sender, RoutedEventArgs e)
         {
-            //tbFajlnev.Text = "";
-            tbFajlnev.IsEnabled = true;
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";            
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {                
+                fajlnev = dlg.FileName;
+            }
         }
-
         private void CbGeneral_Checked(object sender, RoutedEventArgs e)
         {
-            //tbFajlnev.Text = "";
-            tbFajlnev.IsEnabled = false;
+
         }
     }
 }
