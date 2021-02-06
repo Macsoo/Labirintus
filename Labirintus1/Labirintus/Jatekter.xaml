@@ -1,0 +1,42 @@
+﻿<Window x:Class="Labirintus.Jatekter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labirintus"
+        mc:Ignorable="d"    
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Jatekter" Height="753" Width="603">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" x:Name="labirintus">
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnBalra" Content="BALRA FORDUL" Grid.Column="0" Margin="5" Background="Aqua" FontFamily="Courier New" FontSize="16" Click="BtnBalra_Click"/>
+            <Button x:Name="btnElore" Content="ELŐRE" Grid.Column="1" Margin="5" Background="Aqua" FontFamily="Courier New" FontSize="16" Click="BtnElore_Click"/>
+            <Button x:Name="btnJobbra" Content="JOBBRA FORDUL" Grid.Column="2" Margin="5" Background="Aqua" FontFamily="Courier New" FontSize="16" Click="BtnJobbra_Click"/>
+            <Button x:Name="btnAutomata" Content="AUTOMATIKUS" Grid.Column="3" Margin="5" Background="Aqua" FontFamily="Courier New" FontSize="16" Click="BtnAutomata_Click"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lbLepesek" FontFamily="Courier New" FontSize="16" Grid.Column="0"/>
+            <Button x:Name="btnVissza" Content="Visszalépés a főmenübe" FontFamily="Courier New" FontSize="16" Margin="5" Background="Red" Grid.Column="1" Click="BtnVissza_Click"/>
+        </Grid>
+    </Grid>
+</Window>
