@@ -60,7 +60,7 @@ namespace Labirintus
 
         private void BtnAutomata_Click(object sender, RoutedEventArgs e)
         {
-            lab.GenerateLabyrinth();
+            System.Diagnostics.Process.Start("https://youtu.be/dQw4w9WgXcQ");
         }
     }
 
@@ -126,7 +126,7 @@ namespace Labirintus
                 Grid.SetRow(cellak[i / 9, i % 9], i / 9);
                 Grid.SetColumn(cellak[i / 9, i % 9], i % 9);
             }
-            //GenerateLabyrinth();
+            GenerateLabyrinth();
         }
 
         public void Megjelenit()
