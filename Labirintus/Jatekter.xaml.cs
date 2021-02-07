@@ -214,6 +214,7 @@ namespace Labirintus
                     Labirint[x, y] = (x % 2 == 1 && y % 2 == 1) ? '.' : '*';
                 }
             }
+            int visitedCount = 0;
             void Visit(Pos position)
             {
                 List<Pos> unvisitedNeighbours = new List<Pos>();
@@ -228,13 +229,14 @@ namespace Labirintus
                     Labirint[(choosenPos.x + position.x) / 2, (choosenPos.y + position.y) / 2] = '.';
                     visited[choosenPos.x, choosenPos.y] = true;
                     createdRoads.Push(choosenPos);
+                    visitedCount++;
                 }
             }
             bool IsNotVisited(int x, int y)
             {
                 return x > 0 && x < 8 && y > 0 && y < 8 && !visited[x, y];
             }
-            while (createdRoads.Count > 0)
+            while (createdRoads.Count > 0 && visitedCount < 15)
             {
                 Pos currentPos = createdRoads.Pop();
                 Visit(currentPos);
