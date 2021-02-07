@@ -44,14 +44,18 @@ namespace Labirintus
 
         private void BtnBalra_Click(object sender, RoutedEventArgs e)
         {
+            lab.Fordulas('B');
         }
 
         private void BtnElore_Click(object sender, RoutedEventArgs e)
         {
+            lab.Elore();
+            lbLepesek.Content = "Eddig megtett lépések: " + lab.a;
         }
 
         private void BtnJobbra_Click(object sender, RoutedEventArgs e)
         {
+            lab.Fordulas('J');
         }
 
         private void BtnAutomata_Click(object sender, RoutedEventArgs e)
@@ -62,6 +66,7 @@ namespace Labirintus
 
     internal class Labyrinth
     {
+        public int a = 0;
         private char[,] Labirint;
         private Grid labirintus;
         private Border[,] cellak;
@@ -149,7 +154,7 @@ namespace Labirintus
                     }
                     else if (Labirint[sor, oszlop] == '.')
                     {
-                        cella.Background = Brushes.White;
+                        cella.Background = null;
                     }
                 }
             }
@@ -240,60 +245,151 @@ namespace Labirintus
             Megjelenit();
         }
 
-        //int poz = 0;
-        /*public void Fordulas(char f, int s, int o)
-        {
-            char fordul = f; int sor = s; int oszlop = o;
+        private char jatekPoz = 'V';
+        private int poz = 0;
+        private RotateTransform elforgatas = new RotateTransform(0);
+        private long forditas = 0;
 
+        public void Fordulas(char merre)
+        {
             char[] poziciok = new char[] { 'V', '<', '^', '>' };
 
-            char jatekos = Labirint[sor, oszlop];
-            if (f.Equals('J')) { jatekos = poziciok[(++poz) % 4] }
-            else { jatekos = poziciok[(--poz) % 4] }
+            forditas++;
 
-            Labirint[sor, oszlop] = jatekos;
-        }*/
+            if (merre.Equals('J')) { poz++; elforgatas = new RotateTransform(forditas += 90); }
+            else { poz--; elforgatas = new RotateTransform(forditas -= 90); }
 
-        public void Elore(char f, int s, int o)
-        {
-            char fordul = f; int sor = s; int oszlop = o;
-
-            switch (f)
+            if (poz == 0 || poz == 4 || poz == -4) { poz = 0; jatekPoz = poziciok[poz]; }
+            else if (poz > 0) { jatekPoz = poziciok[poz]; }
+            else
             {
-                case 'V':
-                    if (Labirint[sor + 1, oszlop] != '*')
-                    {
-                        ((Label)cellak[sor + 1, oszlop].Child).Content = 'V';
-                        ((Label)cellak[sor, oszlop].Child).Content = '.';
-                    }
-                    break;
+                if (poz == -1) { poz = 3; jatekPoz = poziciok[3]; }
+                else if (poz == -2) { poz = 2; jatekPoz = poziciok[2]; }
+                else if (poz == -3) { poz = 1; jatekPoz = poziciok[1]; }
+            }
 
-                case '<':
-                    if (Labirint[sor, oszlop - 1] != '*')
-                    {
-                        ((Label)cellak[sor, oszlop - 1].Child).Content = '<';
-                        ((Label)cellak[sor, oszlop].Child).Content = '.';
-                    }
-                    break;
+            int sor = 1; int oszlop = 1;
 
-                case '^':
-                    if (Labirint[sor - 1, oszlop] != '*')
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (cellak[i, j].Child != null)
                     {
-                        ((Label)cellak[sor - 1, oszlop].Child).Content = '^';
-                        ((Label)cellak[sor, oszlop].Child).Content = '.';
+                        sor = i; oszlop = j;
                     }
-                    break;
+                }
+            }
+            elforgatas.CenterX = 23.5;
+            elforgatas.CenterY = 40.5;
+            cellak[sor, oszlop].Child.RenderTransform = elforgatas;
+        }
 
-                case '>':
-                    if (Labirint[sor, oszlop + 1] != '*')
+        public void Elore()
+        {
+            int sor = 1; int oszlop = 1;
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (cellak[i, j].Child != null)
                     {
-                        ((Label)cellak[sor, oszlop + 1].Child).Content = '>';
-                        ((Label)cellak[sor, oszlop].Child).Content = '.';
+                        sor = i; oszlop = j;
                     }
-                    break;
+                }
+            }
 
-                default:
-                    break;
+            try
+            {
+                switch (jatekPoz)
+                {
+                    case 'V':
+                        if (cellak[sor + 1, oszlop].Background == null)
+                        {
+                            cellak[sor, oszlop].Child = null;
+                            System.Windows.Point PointDel1 = new System.Windows.Point(26.8, 40.2);
+                            System.Windows.Point PointDel2 = new System.Windows.Point(13.4, 13.4);
+                            System.Windows.Point PointDel3 = new System.Windows.Point(40.2, 13.4);
+                            PointCollection myPointCollectionDel = new PointCollection();
+                            myPointCollectionDel.Add(PointDel1);
+                            myPointCollectionDel.Add(PointDel2);
+                            myPointCollectionDel.Add(PointDel3);
+                            cellak[sor + 1, oszlop].Child = new Polygon() { Stroke = Brushes.Black, StrokeThickness = 4, Fill = Brushes.Green, Points = myPointCollectionDel, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
+                            a++;
+                        }
+                        break;
+
+                    case '<':
+                        if (cellak[sor, oszlop - 1].Background == null)
+                        {
+                            cellak[sor, oszlop].Child = null;
+                            System.Windows.Point PointNyugat1 = new System.Windows.Point(26.8, 40.2);
+                            System.Windows.Point PointNyugat2 = new System.Windows.Point(13.4, 13.4);
+                            System.Windows.Point PointNyugat3 = new System.Windows.Point(40.2, 13.4);
+                            PointCollection myPointCollectionNyugat = new PointCollection();
+                            myPointCollectionNyugat.Add(PointNyugat1);
+                            myPointCollectionNyugat.Add(PointNyugat2);
+                            myPointCollectionNyugat.Add(PointNyugat3);
+                            cellak[sor, oszlop - 1].Child = new Polygon() { Stroke = Brushes.Black, StrokeThickness = 4, Fill = Brushes.Green, Points = myPointCollectionNyugat, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
+
+                            RotateTransform elforgatas = new RotateTransform(90);
+                            elforgatas.CenterX = 23;
+                            elforgatas.CenterY = 40.5;
+                            cellak[sor, oszlop - 1].Child.RenderTransform = elforgatas;
+                            a++;
+                        }
+                        break;
+
+                    case '^':
+                        if (cellak[sor - 1, oszlop].Background == null)
+                        {
+                            cellak[sor, oszlop].Child = null;
+                            System.Windows.Point PointEszak1 = new System.Windows.Point(26.8, 40.2);
+                            System.Windows.Point PointEszak2 = new System.Windows.Point(13.4, 13.4);
+                            System.Windows.Point PointEszak3 = new System.Windows.Point(40.2, 13.4);
+                            PointCollection myPointCollectionEszak = new PointCollection();
+                            myPointCollectionEszak.Add(PointEszak1);
+                            myPointCollectionEszak.Add(PointEszak2);
+                            myPointCollectionEszak.Add(PointEszak3);
+                            cellak[sor - 1, oszlop].Child = new Polygon() { Stroke = Brushes.Black, StrokeThickness = 4, Fill = Brushes.Green, Points = myPointCollectionEszak, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
+
+                            RotateTransform elforgatas = new RotateTransform(-180);
+                            elforgatas.CenterX = 23;
+                            elforgatas.CenterY = 40.5;
+                            cellak[sor - 1, oszlop].Child.RenderTransform = elforgatas;
+                            a++;
+                        }
+                        break;
+
+                    case '>':
+                        if (cellak[sor, oszlop + 1].Background == null)
+                        {
+                            cellak[sor, oszlop].Child = null;
+                            System.Windows.Point PointKelet1 = new System.Windows.Point(26.8, 40.2);
+                            System.Windows.Point PointKelet2 = new System.Windows.Point(13.4, 13.4);
+                            System.Windows.Point PointKelet3 = new System.Windows.Point(40.2, 13.4);
+                            PointCollection myPointCollectionKelet = new PointCollection();
+                            myPointCollectionKelet.Add(PointKelet1);
+                            myPointCollectionKelet.Add(PointKelet2);
+                            myPointCollectionKelet.Add(PointKelet3);
+                            cellak[sor, oszlop + 1].Child = new Polygon() { Stroke = Brushes.Black, StrokeThickness = 4, Fill = Brushes.Green, Points = myPointCollectionKelet, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Center };
+
+                            RotateTransform elforgatas = new RotateTransform(-90);
+                            elforgatas.CenterX = 23;
+                            elforgatas.CenterY = 40.5;
+                            cellak[sor, oszlop + 1].Child.RenderTransform = elforgatas;
+                            a++;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Gratulálunk! Kijutottál.");
             }
         }
     }
